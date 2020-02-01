@@ -1,0 +1,402 @@
+Script started on 2020-01-17 21:23:08-0500
+]0;yash_killerboy@yash-HP-Notebook: ~/Desktop/Home/Advanced Software Engineering/src/lab1[01;32myash_killerboy@yash-HP-Notebook[00m:[01;34m~/Desktop/Home/Advanced Software Engineering/src//lab1[00m$ ls -l
+total 20
+-rw-rw-r-- 1 yash_killerboy yash_killerboy  725 Jan 17 01:33 Book.java
+-rw-rw-r-- 1 yash_killerboy yash_killerboy  778 Jan 17 01:33 GiftCard.java
+-rw-rw-r-- 1 yash_killerboy yash_killerboy 1039 Jan 17 01:45 Item.java
+-rw-r--r-- 1 yash_killerboy yash_killerboy    0 Jan 17 21:23 myscripfile.txt
+-rw-rw-r-- 1 yash_killerboy yash_killerboy 2797 Jan 17 21:21 ShoppingCartApp.java
+-rw-rw-r-- 1 yash_killerboy yash_killerboy 1484 Jan 17 01:42 ShoppingCart.java
+]0;yash_killerboy@yash-HP-Notebook: ~/Desktop/Home/Advanced Software Engineering/src/lab1[01;32myash_killerboy@yash-HP-Notebook[00m:[01;34m~/Desktop/Home/Advanced Software Engineering/src//lab1[00m$ cat .[K*.java
+/**
+ * 
+ * Book class extended by Item and also have more properties such as Title and Author.
+ * @author yash_killerboy
+ * @version 1.0
+ * @since 2020-01-16
+ * 
+ */
+
+package lab1;
+
+public class Book extends Item
+{
+	
+	/**
+	 * 
+	 * Book constructor which is used for assigning values.
+	 * @param a
+	 * @param b
+	 * @param c
+	 * 
+	 */
+	
+	Book(int a, String b, String c)
+	{
+		this.price = a;
+		this.title = b;
+		this.author = c;
+		
+	}
+	
+	private String title;  // Book Title
+	private String author; // Book Author
+	
+	/**
+	 * 
+	 * Overriding toString() Method for printing Book 
+	 * 
+	 */
+	
+	public String toString()
+	{
+		return   "Book\t\t"+this.id
+				+"\t"+this.title
+				+"\t\t\t\t"+this.author
+				+"\t\t"+this.price;
+	}
+	
+}/**
+ * 
+ * GiftCard class extended by Item and also have more properties such as Description and Color.
+ * @author yash_killerboy
+ * @version 1.0
+ * @since 2020-01-16
+ * 
+ */
+
+
+package lab1;
+
+public class GiftCard extends Item
+{
+	
+	/**
+	 * 
+	 * Book constructor which is used for assigning values.
+	 * @param a
+	 * @param b
+	 * @param c
+	 * 
+	 */
+	
+	GiftCard(int a, String b, String c)
+	{
+		this.price = a;
+		this.description = b;
+		this.color = c;
+	}
+	
+	private String description;  // GiftCard Description
+	private String color;  // Color of GiftCard
+	
+	/**
+	 * 
+	 * Overriding toString() Method for printing GiftCard
+	 * 
+	 */
+	
+	public String toString()
+	{
+		return   "GiftCard\t\t"+this.id
+				+"\t"+this.description
+				+"\t\t\t\t"+this.color
+				+"\t\t"+this.price;
+	}
+}
+/**
+ * 
+ * This is Item class which is abstract class that be extended by Book, GiftCard, etc.
+ * containing id of Item and price of Item.
+ * 
+ * @author yash_killerboy
+ * @version 1.0
+ * @since 2020-01-06
+ * 
+ */
+
+
+
+package lab1;
+
+public abstract class Item implements Comparable<Item>
+{
+	private static int increment = 0;  // Increment is used for generating unique ID for Items.
+	protected int id;  // Unique Identification
+	protected int price;  // Item Price
+	
+	/**
+	 * 
+	 * Item() constructor which is used for generating unique Identification for Items.
+	 * 
+	 */
+	
+	Item()
+	{
+		increment += 1;
+		id = increment;
+	}
+	
+    
+	/**
+	 * 
+	 * Overriding the compareTo() function which is implemented from Comparable interface.
+	 * @param Item i
+	 * @return Integer
+	 * 
+	 */
+	
+    public int compareTo(Item i)
+    {
+    	return this.price-i.getPrice();
+    }
+    
+    /**
+     * 
+     * Getting the price of the Item. 
+     * @return price in Integer.
+     * 
+     */
+    
+    public int getPrice()
+    {
+    	return this.price;
+    }
+
+}
+/**
+ * 
+ *  This is the main application file to run Shopping Cart Application 
+ *  which has a shopping menu for the items to add an item to the shopping cart,
+ *  Display cart items with exit option.
+ *  
+ *  @author yash_killerboy
+ *  @version 1.0
+ *  @since 2020-01-16
+ *  
+ */
+
+package lab1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class ShoppingCartApp
+{
+
+	static Item i1,i2,i3,i4,i5,i6;  // Item references
+	static HashMap<Integer, Item> h;  // HashMap for Storing Items
+	static Scanner s;  // User Input
+	static int option;
+	static ShoppingCart sh;  // Shopping Cart Object
+	
+	public static void main(String[] args) 
+	{
+		sh = new ShoppingCart();  // Shopping Cart object
+		
+		s = new Scanner(System.in);
+		
+		i1 = new Book(200, "Java", "Mcgrawhill");
+		i2 = new Book(300, "Data Structure", "Time Publisher");
+		i3 = new Book(100, "Database Management System", "Kobti");
+		
+		i4 = new GiftCard(50, "Black", "BlackFriday");
+		i5 = new GiftCard(75, "Pink", "BoxingDay");
+		i6 = new GiftCard(50, "Violet", "CyberMonday");
+		
+		h = new HashMap<Integer, Item>();
+		h.put(i1.id, i1);
+		h.put(i2.id, i2);
+		h.put(i3.id, i3);
+		h.put(i4.id, i4);
+		h.put(i5.id, i5);
+		h.put(i6.id, i6);
+		
+		System.out.println("******** Menu for shopping ********");
+		System.out.println(" 1. Display all the Items by price");
+		System.out.println(" 2. Add Item to shopping cart");
+		System.out.println(" 3. Show Cart Items");
+		System.out.println(" 4. Exit");
+		
+		option = s.nextInt();  // getting input from User
+		
+		while(true)
+		{						
+			if(option==1)
+			{	
+				ArrayList<Item> itemList =new ArrayList<Item>(h.values());
+				Collections.sort(itemList);
+				System.out.println("******List of Items******");
+				for(Item i1: itemList)  // sorting itemList using comparable
+				{
+					System.out.println(i1);
+				}
+				
+				
+			}
+			else if ( option == 2 )
+			{
+				ArrayList<Item> itemList =new ArrayList<Item>(h.values());
+				Collections.sort(itemList);
+				System.out.println("******List of Items******");
+				for(Item i1: itemList)  // sorting itemList using comparable
+				{
+					System.out.println(i1);
+				}
+				
+				System.out.println("\nEnter 0 for Exit or a Vaild ID of Item.");
+			
+			option = s.nextInt();
+			
+			while(option > 0)
+			{
+				sh.addItem(h, option);
+				option = s.nextInt();
+			}
+			}
+			else if(option==3)
+				sh.showItem();
+			else
+			{
+				System.out.println("Bye");
+				break;
+			}
+			
+			System.out.println("******** Menu for shopping ********");
+			System.out.println(" 1. Display all the Items by price");
+			System.out.println(" 2. Add Item to shopping cart");
+			System.out.println(" 3. Show Cart Items");
+			System.out.println(" 4. Exit");
+			
+			option = s.nextInt();
+			}
+		s.close();
+	}	
+}	/**
+ * 
+ * Shopping Cart for adding and displaying Cart Items which are consumer desired.
+ * @author yash_killerboy
+ * @version 1.0
+ * @since 2020-1-16
+ * 
+ */
+
+package lab1;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ShoppingCart
+{
+	
+	HashMap<Integer, Item> cartItems = new HashMap<Integer, Item>();  // Storing Items which is selected by customer in a HashMap.
+	
+	/**
+	 * 
+	 * addItem() function which is used to add Items selected by consumer
+	 * and its function is to take id of Item and add it to cartItems.
+	 * @param l
+	 * @param option
+	 * 
+	 */
+	
+	public void addItem(HashMap<Integer, Item> l, int option)
+	{
+		if(l.containsKey(option))  // Checking Item id entered by user wether it is presen or not in cartItem
+		{
+			this.cartItems.put(option, l.get(option));  // adding Item into Cart
+		}
+		else
+		{
+			System.out.println("You entered wrong Item.");
+		}
+	}
+	
+	/**
+	 * 
+	 * Displaying the Items which is entered by consumer.
+	 * 
+	 */
+	
+	public void showItem()
+	{
+		if(!cartItems.isEmpty())  // Checking the cart is empty or not.
+		{
+			for(Map.Entry<Integer, Item> hashEntry : cartItems.entrySet())
+				System.out.println(hashEntry.getValue());
+		}
+		else
+			System.out.println("The cart is Empty");
+	}
+	/*public boolean isItemAvailable(HashMap<Integer, Item> l, int option)
+	{
+		for (Map.Entry<Integer, Item> hashElement : l.entrySet()) 
+		 { 
+			 if( option == (int)hashElement.getKey())
+			 {
+				 return true;
+			 }
+		 }
+		return false;
+	}*/
+	
+}
+]0;yash_killerboy@yash-HP-Notebook: ~/Desktop/Home/Advanced Software Engineering/src/lab1[01;32myash_killerboy@yash-HP-Notebook[00m:[01;34m~/Desktop/Home/Advanced Software Engineering/src//lab1[00m$ javac *.java
+]0;yash_killerboy@yash-HP-Notebook: ~/Desktop/Home/Advanced Software Engineering/src/lab1[01;32myash_killerboy@yash-HP-Notebook[00m:[01;34m~/Desktop/Home/Advanced Software Engineering/src//lab1[00m$ cd ..
+]0;yash_killerboy@yash-HP-Notebook: ~/Desktop/Home/Advanced Software Engineering/src[01;32myash_killerboy@yash-HP-Notebook[00m:[01;34m~/Desktop/Home/Advanced Software Engineering/src [00m$ java lab1.sh[K[KShoppingCartApp
+******** Menu for shopping ********
+ 1. Display all the Items by price
+ 2. Add Item to shopping cart
+ 3. Show Cart Items
+ 4. Exit
+1
+******List of Items******
+GiftCard		4	Black				BlackFriday		50
+GiftCard		6	Violet				CyberMonday		50
+GiftCard		5	Pink				BoxingDay		75
+Book		3	Database Management System				Kobti		100
+Book		1	Java				Mcgrawhill		200
+Book		2	Data Structure				Time Publisher		300
+******** Menu for shopping ********
+ 1. Display all the Items by price
+ 2. Add Item to shopping cart
+ 3. Show Cart Items
+ 4. Exit
+2
+******List of Items******
+GiftCard		4	Black				BlackFriday		50
+GiftCard		6	Violet				CyberMonday		50
+GiftCard		5	Pink				BoxingDay		75
+Book		3	Database Management System				Kobti		100
+Book		1	Java				Mcgrawhill		200
+Book		2	Data Structure				Time Publisher		300
+
+Enter 0 for Exit or a Vaild ID of Item.
+2
+1
+3
+5
+0
+******** Menu for shopping ********
+ 1. Display all the Items by price
+ 2. Add Item to shopping cart
+ 3. Show Cart Items
+ 4. Exit
+3
+Book		1	Java				Mcgrawhill		200
+Book		2	Data Structure				Time Publisher		300
+Book		3	Database Management System				Kobti		100
+GiftCard		5	Pink				BoxingDay		75
+******** Menu for shopping ********
+ 1. Display all the Items by price
+ 2. Add Item to shopping cart
+ 3. Show Cart Items
+ 4. Exit
+4
+Bye
+]0;yash_killerboy@yash-HP-Notebook: ~/Desktop/Home/Advanced Software Engineering/src[01;32myash_killerboy@yash-HP-Notebook[00m:[01;34m~/Desktop/Home/Advanced Software Engineering/src [00m$ exit
+exit
+
+Script done on 2020-01-17 21:24:16-0500
